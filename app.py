@@ -20,17 +20,17 @@ spor = st.sidebar.selectbox(
 )
 
 if spor == "Futbol":
-takimlar = pd.DataFrame({
-"Takım": ["Örnek FC", "Örnek SK"],
-"Son 5 maç": ["G-G-B-G-M", "M-B-G-M-B"],
-"Gol ortalaması": [1.8, 1.1]
-})
+    takimlar = pd.DataFrame({
+        "Takım": ["Örnek FC", "Örnek SK"],
+        "Son 5 maç": ["G-G-B-G-M", "M-B-G-M-B"],
+        "Gol ortalaması": [1.8, 1.1]
+    })
 else:
-takimlar = pd.DataFrame({
-"Takım": ["Örnek Basket A", "Örnek Basket B"],
-"Son 5 maç": ["G-G-M-G-G", "M-G-M-B-G"],
-"Sayı ortalaması": [86.4, 80.2]
-})
+    takimlar = pd.DataFrame({
+        "Takım": ["Örnek Basket A", "Örnek Basket B"],
+        "Son 5 maç": ["G-G-M-G-G", "M-G-M-B-G"],
+        "Sayı ortalaması": [86.4, 80.2]
+    })
 
 st.subheader(f"{spor} takım karşılaştırması")
 st.dataframe(
