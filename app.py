@@ -103,3 +103,38 @@ st.caption(
 "Oranlardan hesaplanan olasılık, model tahmini değildir. "
 "Bahis sonucu garanti edilemez."
 )
+
+st.title("⚽ 🏀 MaçAnaliz AI")
+st.write("Futbol ve basketbol maç analiz platformu")
+
+spor = st.sidebar.selectbox(
+    "Spor Dalı Seç",
+    ["Futbol", "Basketbol"]
+)
+
+st.subheader(f"{spor} Analizi")
+
+takim1 = st.text_input("1. Takım")
+takim2 = st.text_input("2. Takım")
+
+if spor == "Futbol":
+    st.write("Futbol analizleri")
+    sut = st.number_input("Takımın maç başına şut ortalaması", min_value=0.0, step=0.1)
+    gol = st.number_input("Takımın maç başına gol ortalaması", min_value=0.0, step=0.1)
+
+else:
+    st.write("Basketbol analizleri")
+    sayi = st.number_input("Takımın maç başına sayı ortalaması", min_value=0.0, step=1.0)
+    uc_luk = st.number_input("Maç başına üçlük sayısı ortalaması", min_value=0.0, step=0.1)
+
+if st.button("Analizi Göster"):
+    if takim1 and takim2:
+        st.success(f"{takim1} - {takim2} analizi hazırlandı.")
+        if spor == "Futbol":
+            st.write(f"Şut ortalaması: {sut}")
+            st.write(f"Gol ortalaması: {gol}")
+        else:
+            st.write(f"Sayı ortalaması: {sayi}")
+            st.write(f"Üçlük ortalaması: {uc_luk}")
+    else:
+        st.warning("Lütfen iki takımın adını gir.")
