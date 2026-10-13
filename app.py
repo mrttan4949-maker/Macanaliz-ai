@@ -40,7 +40,9 @@ hide_index=True
 )
 
 st.subheader("Takım form grafiği")
-grafik = takimlar.set_index("Takım").iloc[:, 2]
+
+grafik = takimlar.set_index("Takım").select_dtypes(include="number")
+
 st.bar_chart(grafik)
 
 st.divider()
