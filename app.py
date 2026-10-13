@@ -47,7 +47,7 @@ st.divider()
 st.subheader("Bahis oranı karşılaştırıcısı")
 
 if spor == "Futbol":
-ev = st.number_input(
+    ev = st.number_input(
 "Ev sahibi oranı", 1.01, 100.0, 1.85
 )
 beraberlik = st.number_input(
