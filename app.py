@@ -141,3 +141,35 @@ if st.button("Analizi Göster"):
             st.write(f"Üçlük ortalaması: {uc_luk}")
     else:
         st.warning("Lütfen iki takımın adını gir.")
+
+st.divider()
+st.subheader("Gerçek Futbol Verisi Bağlantısı")
+
+try:
+    api_key = st.secrets["API_FOOTBALL_KEY"]
+
+    if st.button("API bağlantısını test et"):
+        response = requests.get(
+            "https://v3.football.api-sports.io/status",
+            headers={"x-apisports-key": api_key},
+            timeout=15
+        )
+
+        if response.status_code == 200:
+            data = response.json()
+
+            if data.get("errors"):
+                st.error("API hatası: Anahtarı ve hesap erişimini kontrol et.")
+            else:
+                st.success("API bağlantısı başarılı!")
+                st.json(data)
+        else:
+            st.error(
+                f"Bağlantı başarısız. HTTP kodu: "
+                f"{response.status_code}"
+            )
+
+except KeyError:
+    st.error("API anahtarı Streamlit Secrets bölümünde bulunamadı.")
+except requests.RequestException:
+    st.error("Sunucuya bağlanılamadı. İnternet bağlantısını kontrol et.")
