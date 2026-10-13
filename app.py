@@ -173,3 +173,54 @@ except KeyError:
     st.error("API anahtarı Streamlit Secrets bölümünde bulunamadı.")
 except requests.RequestException:
     st.error("Sunucuya bağlanılamadı. İnternet bağlantısını kontrol et.")
+
+st.divider()
+st.subheader("⚽ Gerçek Takım Arama")
+
+try:
+    api_key = st.secrets["API_FOOTBALL_KEY"]
+
+    takim_adi = st.text_input(
+        "Aramak istediğin takım",
+        placeholder="Örn. Galatasaray"
+    )
+
+    if st.button("Takımı Ara"):
+        if takim_adi.strip():
+            cevap = requests.get(
+                "https://v3.football.api-sports.io/teams",
+                headers={"x-apisports-key": api_key},
+                params={"search": takim_adi.strip()},
+                timeout=20
+            )
+
+            if cevap.status_code == 200:
+                veri = cevap.json()
+
+                if veri.get("errors"):
+                    st.error("API isteği başarısız oldu.")
+                    st.json(veri["errors"])
+                elif veri.get("response"):
+                    for sonuc in veri["response"]:
+                        takim = sonuc["team"]
+                        ulke = sonuc["team"].get("country", "")
+                        st.write(
+                            f"**{takim['name']}** — {ulke}"
+                        )
+                        st.write(f"Takım ID: {takim['id']}")
+
+                        logo = takim.get("logo")
+                        if logo:
+                            st.image(logo, width=80)
+                else:
+                    st.warning("Takım bulunamadı.")
+            else:
+                st.error(
+                    f"HTTP hatası: {cevap.status_code}"
+                )
+        else:
+            st.warning("Lütfen bir takım adı yaz.")
+except KeyError:
+    st.error("API_FOOTBALL_KEY anahtarı Secrets bölümünde bulunamadı.")
+except requests.RequestException:
+    st.error("API sunucusuna bağlanılamadı.")
